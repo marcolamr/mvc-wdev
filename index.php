@@ -2,6 +2,17 @@
 
 require __DIR__ . "/vendor/autoload.php";
 
-use App\Controller\Pages\Home;
+use App\Http\Router;
+use App\Utils\View;
 
-echo Home::getHome();
+define("URL", "http://localhost/mvc");
+
+View::init([
+    "URL" => URL
+]);
+
+$router = new Router(URL);
+
+include __DIR__ . "/routes/pages.php";
+
+$router->run()->sendResponse();
