@@ -1,0 +1,11 @@
+{
+    "name": "marcolamr/mvc",
+    "autoload": {
+        "psr-4": {
+            "App\\": "app/"
+        }
+    },
+    "require-dev": {
+        "marcolamr/dd": "1.*"
+    }
+}
