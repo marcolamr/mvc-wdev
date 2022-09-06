@@ -1,15 +1,8 @@
 <?php
 
-require __DIR__ . "/vendor/autoload.php";
+require __DIR__ . "/includes/app.php";
 
 use App\Http\Router;
-use App\Utils\View;
-
-define("URL", "http://localhost/mvc");
-
-View::init([
-    "URL" => URL
-]);
 
 $router = new Router(URL);
 

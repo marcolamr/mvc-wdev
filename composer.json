@@ -7,5 +7,9 @@
     },
     "require-dev": {
         "marcolamr/dd": "1.*"
+    },
+    "require": {
+        "william-costa/dot-env": "^0.1.0",
+        "william-costa/database-manager": "^0.1.0"
     }
 }

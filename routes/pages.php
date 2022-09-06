@@ -15,8 +15,14 @@ $router->get("/sobre", [
     }
 ]);
 
-$router->get("/pagina/{idPage}/{action}", [
-    function ($idPage, $action) {
-        return new Response(200, "Página " . $idPage . " - " . $action);
+$router->get("/depoimentos", [
+    function ($request) {
+        return new Response(200, Pages\Testimony::getTestimonies($request));
+    }
+]);
+
+$router->post("/depoimentos", [
+    function ($request) {
+        return new Response(200, Pages\Testimony::insertTestimony($request));
     }
 ]);
