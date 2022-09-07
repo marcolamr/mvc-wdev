@@ -111,6 +111,20 @@ class Router
     }
 
     /**
+     * Redireciona URL
+     *
+     * @param string $route
+     * @return void
+     */
+    public function redirect(string $route): void
+    {
+        $url = $this->url . $route;
+
+        header("Location: " . $url);
+        exit;
+    }
+
+    /**
      * Retorn os dados da rota atual
      *
      * @return array
