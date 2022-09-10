@@ -37,6 +37,34 @@ class Testimony
     }
 
     /**
+     * Atualiza a instância atual no banco de dados
+     *
+     * @return boolean
+     */
+    public function atualizar(): bool
+    {
+        return (new Database("depoimentos"))->update("id = {$this->id}", [
+            "nome" => $this->nome,
+            "mensagem" => $this->mensagem
+        ]);
+    }
+
+    /**
+     * Exlcui a instância atual no banco de dados
+     *
+     * @return boolean
+     */
+    public function excluir(): bool
+    {
+        return (new Database("depoimentos"))->delete("id = {$this->id}");
+    }
+
+    public static function getTestimonyById(int $id)
+    {
+        return self::getTestimonies("id = {$id}")->fetchObject(self::class);
+    }
+
+    /**
      * Retorna Depoimentos
      *
      * @param string|null $where
