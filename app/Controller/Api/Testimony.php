@@ -68,4 +68,74 @@ class Testimony extends Api
             "data" => $testimony->data
         ];
     }
+
+    public static function setNewTestimony(Request $request)
+    {
+        $postVars = $request->getPostVars();
+
+        if (!isset($postVars["nome"]) || !isset($postVars["mensagem"])) {
+            throw new Exception("Os campos 'nome' e 'mensagem' são obrigatórios", 400);
+        }
+
+        $testimony = new EntityTestimony();
+        $testimony->nome = $postVars["nome"];
+        $testimony->mensagem = $postVars["mensagem"];
+        $testimony->cadastrar();
+
+        return [
+            "id" => (int)$testimony->id,
+            "nome" => $testimony->nome,
+            "mensagem" => $testimony->mensagem,
+            "data" => $testimony->data
+        ];
+    }
+
+    public static function setEditTestimony(Request $request, $id)
+    {
+        if (!is_numeric($id)) {
+            throw new Exception("O id '{$id}' não é válido", 400);
+        }
+
+        $postVars = $request->getPostVars();
+
+        if (!isset($postVars["nome"]) || !isset($postVars["mensagem"])) {
+            throw new Exception("Os campos 'nome' e 'mensagem' são obrigatórios", 400);
+        }
+
+        $testimony = EntityTestimony::getTestimonyById($id);
+
+        if (!$testimony instanceof EntityTestimony) {
+            throw new Exception("O depoimento {$id} não foi encontrado", 404);
+        }
+
+        $testimony->nome = $postVars["nome"];
+        $testimony->mensagem = $postVars["mensagem"];
+        $testimony->atualizar();
+
+        return [
+            "id" => (int)$testimony->id,
+            "nome" => $testimony->nome,
+            "mensagem" => $testimony->mensagem,
+            "data" => $testimony->data
+        ];
+    }
+
+    public static function setDeleteTestimony(Request $request, $id)
+    {
+        if (!is_numeric($id)) {
+            throw new Exception("O id '{$id}' não é válido", 400);
+        }
+
+        $testimony = EntityTestimony::getTestimonyById($id);
+
+        if (!$testimony instanceof EntityTestimony) {
+            throw new Exception("O depoimento {$id} não foi encontrado", 404);
+        }
+
+        $testimony->excluir();
+
+        return [
+            "sucesso" => true
+        ];
+    }
 }
