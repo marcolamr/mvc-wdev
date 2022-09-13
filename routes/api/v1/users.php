@@ -13,6 +13,16 @@ $router->get("/api/v1/users", [
     }
 ]);
 
+$router->get("/api/v1/users/me", [
+    "middlewares" => [
+        "api",
+        "jwt-auth"
+    ],
+    function ($request) {
+        return new Response(200, Api\User::getCurrentUser($request), "application/json");
+    }
+]);
+
 $router->get("/api/v1/users/{id}", [
     "middlewares" => [
         "api",

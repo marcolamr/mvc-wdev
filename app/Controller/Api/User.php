@@ -67,6 +67,17 @@ class User extends Api
         ];
     }
 
+    public static function getCurrentUser(Request $request): array
+    {
+        $user = $request->user;
+
+        return [
+            "id" => (int)$user->id,
+            "nome" => $user->nome,
+            "email" => $user->email
+        ];
+    }
+
     public static function setNewUser(Request $request)
     {
         $postVars = $request->getPostVars();
