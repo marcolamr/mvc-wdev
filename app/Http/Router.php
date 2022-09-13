@@ -21,6 +21,9 @@ class Router
     /** @var Request */
     private $request;
 
+    /** @var string */
+    private $contentType = "text/html";
+
     /**
      * Construtor da classe
      *
@@ -31,6 +34,11 @@ class Router
         $this->request = new Request($this);
         $this->url = $url;
         $this->setPrefix();
+    }
+
+    public function setContentType(string $contentType): void
+    {
+        $this->contentType = $contentType;
     }
 
     /**
@@ -96,7 +104,7 @@ class Router
 
             return (new MiddlewareQueue($route["middlewares"], $route["controller"], $args))->next($this->request);
         } catch (Exception $e) {
-            return new Response($e->getCode(), $e->getMessage());
+            return new Response($e->getCode(), $this->getErrorMessage($e->getMessage()), $this->contentType);
         }
     }
 
@@ -122,6 +130,21 @@ class Router
 
         header("Location: " . $url);
         exit;
+    }
+
+    private function getErrorMessage(string $message): mixed
+    {
+        switch ($this->contentType) {
+            case 'application/json':
+                return [
+                    "error" => $message
+                ];
+                break;
+
+            default:
+                return $message;
+                break;
+        }
     }
 
     /**
@@ -164,7 +187,7 @@ class Router
         $uri = $this->request->getUri();
         $xUri = strlen($this->prefix) ? explode($this->prefix, $uri) : [$uri];
 
-        return end($xUri);
+        return rtrim(end($xUri), "/");
     }
 
     /**
