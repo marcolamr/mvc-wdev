@@ -4,7 +4,10 @@ use App\Controller\Api;
 use App\Http\Response;
 
 $router->get("/api/v1/testimonies", [
-    "middlewares" => ["api"],
+    "middlewares" => [
+        "api",
+        "cache"
+    ],
     function ($request) {
         return new Response(200, Api\Testimony::getTestimonies($request), "application/json");
     }

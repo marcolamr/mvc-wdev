@@ -182,7 +182,7 @@ class Router
      *
      * @return string
      */
-    private function getUri(): string
+    public function getUri(): string
     {
         $uri = $this->request->getUri();
         $xUri = strlen($this->prefix) ? explode($this->prefix, $uri) : [$uri];
@@ -217,6 +217,8 @@ class Router
             $route = preg_replace($patternVariable, "(.*?)", $route);
             $params["variables"] = $matches[1];
         }
+
+        $route = rtrim($route, "/");
 
         $patternRoute = "/^" . str_replace("/", "\/", $route) . "$/";
 

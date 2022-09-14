@@ -6,7 +6,8 @@ use App\Http\Response;
 $router->get("/api/v1/users", [
     "middlewares" => [
         "api",
-        "user-basic-auth"
+        "user-basic-auth",
+        "cache"
     ],
     function ($request) {
         return new Response(200, Api\User::getUsers($request), "application/json");
